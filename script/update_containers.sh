@@ -64,20 +64,10 @@ fi
 for host in $HOSTS
 do
   echo "$host: Updating containers..."
-  ssh "$host" sudo -H -S -- bash -e -u -x <<< $(sed -E 's/^ *; ?//' << ..EOSSH
-  ; cd /root/docker-server-configs
-  ; git pull
-  ; for service in $SERVICES
-  ; do
-  ;   container=\$service-$DEPLOY_ENV
-  ;   if docker container inspect \$container &>/dev/null
-  ;   then
-  ;     docker stop --time 30 \$container && docker rm \$container
-  ;   fi
-  ; done
-  ; ./scripts/start_services.sh || exit 0
-..EOSSH
-  )
+  ssh "$host" \
+    sudo -H -S -- \
+      /root/docker-server-configs/scripts/update_services.sh \
+        $DEPLOY_ENV $SERVICES
   sleep 30
 done
 
