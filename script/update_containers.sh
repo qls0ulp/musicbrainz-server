@@ -5,7 +5,7 @@ set -e -u
 SCRIPT_NAME=$(basename "$0")
 
 HELP=$(cat <<EOH
-Usage: $SCRIPT_NAME <prod|beta|test> [on <hosts list>]"
+Usage: $SCRIPT_NAME <prod|beta|test> [<hosts list>]"
 
 Update MusicBrainz website/webservice containers on specified hosts.
 If no (space-delimited) hosts list is specified, update on all hosts.
@@ -51,19 +51,13 @@ then
     done | sort -u
   )
 else
-  if [ "$1" != 'on' ]
-  then
-    echo >&2 "$SCRIPT_NAME: missing 'on' separator"
-    echo >&2 "$HELP"
-    exit 64
-  elif [ $# -eq 1 ]
+  if [ $# -eq 0 ]
   then
     echo >&2 "$SCRIPT_NAME: missing (space-separated) hosts list"
     echo >&2 "$HELP"
     exit 64
   fi
 
-  shift
   HOSTS="$*"
 fi
 
