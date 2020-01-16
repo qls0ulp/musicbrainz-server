@@ -36,7 +36,7 @@ SERVICES="musicbrainz-webservice musicbrainz-website"
 if [ $# -eq 0 ]
 then
   LIST_METABRAINZ_HOSTS=${LIST_METABRAINZ_HOSTS:-../docker-server-configs/scripts/list_nodes.sh}
-  if [ -x "$LIST_METABRAINZ_HOSTS" ]
+  if [ ! -x "$LIST_METABRAINZ_HOSTS" ]
   then
     echo >&2 "$SCRIPT_NAME: cannot list hosts per service/deploy env"
     echo >&2
